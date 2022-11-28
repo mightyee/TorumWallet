@@ -8,7 +8,7 @@
 - show coin details
 - buy/ sell available coin
 
-## Waallet Screen
+## Wallet Screen
 - show coins that brought on Coin details screen
 - can click on to details screen to view coin details
 - wwipe right to delete
