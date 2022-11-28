@@ -15,7 +15,7 @@ export const DrawXaxis = ({
 }: IDrawXaxis): JSX.Element => {
   const numberOfTicks = xScale.ticks().length;
   const ticks = xScale.ticks(numberOfTicks);
-  console.log('ticksXXX', ticks);
+  // console.log('ticksXXX', ticks);
   // const date = new Date(ticks);
 
   // console.log(date.toLocaleDateString('en-US')); // 👉️ "1/20/2022"

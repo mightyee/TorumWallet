@@ -43,10 +43,8 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
 
     const removeWalletlistCoinId = async (id: string) => {
         const newWalletlist = walletCoinIds.filter((coinIdValue) => String(coinIdValue) !== String(id));
-        console.log('newWalletlist', newWalletlist);
 
         const jsonValue = JSON.stringify(newWalletlist);
-        console.log('jsonValue', jsonValue);
         await AsyncStorage.setItem('@walletlist_coins', jsonValue);
         await setWalletCoinIds(newWalletlist);
     }

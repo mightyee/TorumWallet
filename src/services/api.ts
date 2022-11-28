@@ -1,13 +1,11 @@
 import axios from 'axios';
 
 export const fetchCoins = async ({pageParam = 1}) => {
-  console.log('Fetching Coins List', pageParam);
   const response = await axios.get(
     `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=50&page=${pageParam}&sparkline=false&price_change_percentage=24h`,
   );
 
   const Coins = response.data;
-  //   console.log('List: ', JSON.stringify(Coins, undefined, 4));
   return {
     data: Coins,
     nextPage: pageParam + 1,
@@ -15,7 +13,6 @@ export const fetchCoins = async ({pageParam = 1}) => {
 };
 
 export const getWatchlistedCoins = async (pageNumber = 1, coinIds: string) => {
-  //   console.log('getWatchlistedCoins', JSON.stringify(coinIds, undefined, 4));
   try {
     const response = await axios.get(
       `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${coinIds}&order=market_cap_desc&per_page=50&page=${pageNumber}&sparkline=false&price_change_percentage=24h`,
@@ -27,7 +24,6 @@ export const getWatchlistedCoins = async (pageNumber = 1, coinIds: string) => {
 };
 
 export const getCoinDetails = async (coinId: string) => {
-  //   console.log('coinIds', JSON.stringify(coinId, undefined, 4));
   try {
     const response = await axios.get(
       `https://api.coingecko.com/api/v3/coins/${coinId}?localization=false&tickers=false&market_data=true&community_data=true&developer_data=false&sparkline=false`,
@@ -39,7 +35,6 @@ export const getCoinDetails = async (coinId: string) => {
 };
 
 export const getTickerDetails = async (coinId: string) => {
-  //   console.log('coinIds', JSON.stringify(coinId, undefined, 4));
   try {
     const response = await axios.get(
       `https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=usd&days=1&interval=daily

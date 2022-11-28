@@ -43,18 +43,10 @@ const Wallet = (props) => {
         }
     }, [walletCoinIds])
 
-    const date = new Date(1669456880754);
-
-    console.log(date.toLocaleDateString('en-US')); // 👉️ "1/20/2022"
-
 
     const onDismiss = useCallback(async (id) => {
-        console.log('enetr', id);
-        console.log('walletCoinIds', walletCoinIds);
 
         if (walletCoinIds.some((coinIdValue) => String(coinIdValue) === String(id))) {
-            console.log('Detelted');
-
             removeWalletlistCoinId(id)
             //Toast
             show({ message: `Sell ${id} successfully!` })

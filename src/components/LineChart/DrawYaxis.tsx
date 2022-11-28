@@ -11,7 +11,6 @@ export const DrawYaxis = ({ yScale, height }: IDrawYaxis): JSX.Element => {
   const numberOfTicks = yScale.ticks().length;
   const ticks = yScale.ticks(numberOfTicks);
 
-  console.log('ticks', ticks);
 
   // const date = new Date(ticks);
 

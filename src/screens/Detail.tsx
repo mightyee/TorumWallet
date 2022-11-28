@@ -57,12 +57,12 @@ const Detail = ({ route, navigation }) => {
         return storeWalletlistCoinId(id)
     }
 
-    console.log(JSON.stringify(tickerData, undefined, 4));
+    // console.log(JSON.stringify(tickerData, undefined, 4));
 
 
-    const date = new Date(1669573860537);
+    // const date = new Date(1669573860537);
 
-    console.log(date.toLocaleDateString('en-US')); // 👉️ "1/20/2022"
+    // console.log(date.toLocaleDateString('en-US')); // 👉️ "1/20/2022"
 
 
 
