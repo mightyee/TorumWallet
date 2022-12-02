@@ -1,11 +1,12 @@
 import React, { useRef } from "react";
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, SafeAreaView } from 'react-native';
 import { useQuery } from "@tanstack/react-query";
 import { getCoinDetails, getTickerDetails } from '../services/api';
-import Text from '../components/Text';
 import styled from 'styled-components/native';
 import Loader from '../components/Loader';
 import { LineChart } from '../components/LineChart';
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+
 import Animated from "react-native-reanimated";
 import DetailHeader, { HEADER_IMAGE_HEIGHT, MIN_HEADER_HEIGHT } from '../components/DetailHeader';
 import Header from '../components/Header';
@@ -19,10 +20,12 @@ import InfoCard from '../components/InfoCard';
 import DetailsCard from '../components/DetailsCard';
 import PriceChangePercentage from '../components/PriceChangePercentage';
 
-const Detail = ({ route, navigation }) => {
+const Detail = ({ route }) => {
     const { id } = route.params;
     const scrollView = useRef<Animated.ScrollView>(null);
-
+    const { walletCoinIds, storeWalletlistCoinId, removeWalletlistCoinId } = useWalletlist();
+    const { show } = useToast();
+    const { bottom } = useSafeAreaInsets()
     const y = useValue(0);
     const onScroll = onScrollEvent({ y });
 
@@ -35,14 +38,6 @@ const Detail = ({ route, navigation }) => {
         ['ticker', id],
         () => getTickerDetails(id),
     );
-
-
-    if (isLoading || tickerLoading) {
-        return <Loader />
-    }
-
-    const { walletCoinIds, storeWalletlistCoinId, removeWalletlistCoinId } = useWalletlist();
-    const { show } = useToast();
 
     const checkIfCoinIsWalletlisted = () => walletCoinIds.some((coinIdValue) => String(coinIdValue) === String(id));
 
@@ -57,46 +52,40 @@ const Detail = ({ route, navigation }) => {
         return storeWalletlistCoinId(id)
     }
 
-    // console.log(JSON.stringify(tickerData, undefined, 4));
+    console.log('tickerData', tickerData);
 
-
-    // const date = new Date(1669573860537);
-
-    // console.log(date.toLocaleDateString('en-US')); // 👉️ "1/20/2022"
-
-
+    if (isLoading || tickerLoading) {
+        return <Loader />
+    }
 
     return (
-        <Container>
-            <DetailHeader {...{ y, data }} />
-            <View style={{
-                height: HEADER_IMAGE_HEIGHT,
-                marginBottom: MIN_HEADER_HEIGHT,
-            }} />
-            <Animated.ScrollView
-                ref={scrollView}
-                style={[StyleSheet.absoluteFill, { bottom: 80 }]}
-                scrollEventThrottle={1}
-                {...{ onScroll }}
-            >
-                <View style={{
-                    height: HEADER_IMAGE_HEIGHT,
-                    marginBottom: MIN_HEADER_HEIGHT,
-                }} />
-                <LineChart tickerData={tickerData?.prices} />
-                {/* percentage_change */}
-                <PriceChangePercentage market_data={data?.market_data || []} />
-                {/* coin details */}
-                <DetailsCard data={data} />
-                {/*company information */}
-                <InfoCard data={data} />
-            </Animated.ScrollView>
-            <Header {...{ y, scrollView, data }} />
-            <View style={{ position: 'absolute', left: 0, right: 0, bottom: 34, justifyContent: 'center', alignItems: 'center' }}>
-                <GradientButton style={{ width: 300, height: 50 }} onPress={handleWatchlistCoin} text={checkIfCoinIsWalletlisted() ? `Sell ${data.name}` : `Buy ${data.name}`} />
-            </View>
-
-        </Container >
+        <SafeAreaView style={{ flex: 1 }}>
+            <Container>
+                <DetailHeader {...{ y, data }} />
+                <Animated.ScrollView
+                    ref={scrollView}
+                    style={[StyleSheet.absoluteFill, { bottom: 80 }]}
+                    scrollEventThrottle={1}
+                    {...{ onScroll }}
+                >
+                    <View style={{
+                        height: HEADER_IMAGE_HEIGHT,
+                        marginBottom: MIN_HEADER_HEIGHT,
+                    }} />
+                    <LineChart tickerData={tickerData?.prices} />
+                    {/* percentage_change */}
+                    <PriceChangePercentage market_data={data?.market_data || []} />
+                    {/* coin details */}
+                    <DetailsCard data={data} />
+                    {/*company information */}
+                    <InfoCard data={data} />
+                </Animated.ScrollView>
+                <Header {...{ y, scrollView, data }} />
+                <ButonContainer bottom={bottom}>
+                    <GradientButton style={{ width: 300, height: 50 }} onPress={handleWatchlistCoin} text={checkIfCoinIsWalletlisted() ? `Sell ${data.name}` : `Buy ${data.name}`} />
+                </ButonContainer>
+            </Container >
+        </SafeAreaView>
     )
 }
 const Container = styled.View`
@@ -104,13 +93,12 @@ const Container = styled.View`
     background-color: #1B232A;
 `
 
-const Buton = styled.TouchableOpacity`
-    display: flex;
+const ButonContainer = styled.View<{ bottom: number }>`
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    bottom: ${p => p.bottom}px;
     justify-content: center;
     align-items: center;
-    width: 200px;
-    height: 40px;
-    border-radius: 10px;
-    background-color: 'hsl(0, 0%, 95%)'};
 `
 export default Detail

@@ -22,18 +22,13 @@ const getD3ScaleFunction = ({
 interface IgetXYscale {
   width: number;
   height: number;
+  data: any;
 }
 
 interface IgetXYscaleR {
   xScale: d3Scale.ScaleLinear<number, number>;
   yScale: d3Scale.ScaleLinear<number, number>;
 }
-
-// const scaleY = scaleLinear().domain([min, max]).range([GRAPH_WIDTH, 0]);
-
-// const scaleX = scaleLinear()
-//     .domain([Math.min(...dates), Math.max(...dates)])
-//     .range([10, GRAPH_WIDTH - 10]);
 
 export const getXYscale = ({
   width,
@@ -44,9 +39,14 @@ export const getXYscale = ({
     data,
   });
 
+  // const formattedValues = data.map(
+  //   price => [parseFloat(price[1]), price[0]] as [number, number],
+  // );
+
   const formattedValues = data.map(
-    price => [parseFloat(price[1]), price[0]] as [number, number],
+    ([x, y]) => [parseFloat(y), x] as [number, number],
   );
+
   const prices = formattedValues.map(value => value[1]);
   const dates = formattedValues.map(value => value[0]);
 
@@ -57,7 +57,7 @@ export const getXYscale = ({
 
   const xScale = getD3ScaleFunction({
     domain: [min, max], // 30 -> fixed max X to avoid x scale dynamic ticks change
-    range: [0, width - 80],
+    range: [0, width - 30], //80
   });
   const yScale = getD3ScaleFunction({
     domain: [minY, maxY], // 18 -> fixed max Y to avoid x scale dynamic ticks change

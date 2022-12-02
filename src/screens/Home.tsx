@@ -10,9 +10,6 @@ import Text from '../components/Text';
 
 const Home = (props) => {
     const { isLoading, data, hasNextPage, fetchNextPage, isFetchingNextPage } = useInfiniteCoins()
-
-
-
     const renderItem = React.useCallback(({ item }: any) => <CoinItem marketCoin={item} navigation={props.navigation} />, [])
     const keyExtractor = React.useCallback((item: any, index: any) => item.id.toString() + new Date().getTime().toString() + (Math.floor(Math.random() * Math.floor(new Date().getTime()))).toString(), [])
     const ListFooterComponent = React.useCallback(() => {

@@ -4,22 +4,16 @@ import * as d3 from 'd3-scale';
 
 interface IDrawYaxis {
   height: number;
+  width: number;
   yScale: d3.ScaleLinear<number, number>;
 }
 
-export const DrawYaxis = ({ yScale, height }: IDrawYaxis): JSX.Element => {
+export const DrawYaxis = ({ yScale, height, width }: IDrawYaxis): JSX.Element => {
   const numberOfTicks = yScale.ticks().length;
   const ticks = yScale.ticks(numberOfTicks);
 
-
-  // const date = new Date(ticks);
-
-  // console.log(date.toLocaleDateString('en-US')); // 👉️ "1/20/2022"
-
-
   return (
     <G key="yAxis" fill="none" transform="translate(30, 10)">
-      <Line stroke="rgba(0,0,0,1)" x1="0" y1="0" x2="0" y2={height - 50} />
       {ticks.map(tick => {
         const yTick = yScale(tick);
         return (
@@ -29,8 +23,9 @@ export const DrawYaxis = ({ yScale, height }: IDrawYaxis): JSX.Element => {
             transform={`translate(0, ${yTick})`}>
             <Line
               key={`ya_${tick}_1`}
-              x2={-6}
+              x2={width - 30}//80
               strokeWidth={1}
+              opacity="0.3"
               stroke="white"
             />
             <Text fontSize="10" fill="white" x="-25" y="5">

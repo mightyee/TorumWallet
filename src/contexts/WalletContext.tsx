@@ -8,7 +8,6 @@ export interface IUseWallet {
     storeWalletlistCoinId: (coinId?: string) => void;
     removeWalletlistCoinId: (coinId?: string) => void;
     setWalletCoinIds: (coinId?: string) => void;
-
 }
 
 export const useWalletlist = () => useContext(WalletContext) as IUseWallet;
@@ -35,7 +34,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
             const newWalletlist = [...walletCoinIds, id];
             const jsonValue = JSON.stringify(newWalletlist);
             await AsyncStorage.setItem('@walletlist_coins', jsonValue);
-            await setWalletCoinIds(newWalletlist);
+            setWalletCoinIds(newWalletlist);
         } catch (e) {
             console.log(e)
         }
@@ -46,7 +45,7 @@ export const WalletProvider = ({ children }: { children: React.ReactNode }) => {
 
         const jsonValue = JSON.stringify(newWalletlist);
         await AsyncStorage.setItem('@walletlist_coins', jsonValue);
-        await setWalletCoinIds(newWalletlist);
+        setWalletCoinIds(newWalletlist);
     }
 
 

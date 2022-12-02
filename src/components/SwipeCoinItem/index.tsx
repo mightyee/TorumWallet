@@ -110,8 +110,7 @@ const SwipeCoinItem: React.FC<ListItemProps> = ({
                 onPress={() => navigation.navigate('Detail', { id })}
             >
                 <IconContainer style={rIconContainerStyle}>
-                    <Icon name={'trash'} size={LIST_ITEM_HEIGHT * 0.4} color={'red'}
-                    />
+                    <Icon name={'trash'} size={LIST_ITEM_HEIGHT * 0.4} color={'red'} />
                 </IconContainer>
                 <PanGestureHandler
                     simultaneousHandlers={simultaneousHandlers}

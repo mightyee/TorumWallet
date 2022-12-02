@@ -14,10 +14,15 @@ const initialToast = {
     show: null
 };
 
+export interface IuseToast {
+    hide: () => void;
+    show: ({ ...args }: any) => void;
+    toast: any;
+}
+
+
 const ToastContext = createContext({});
-export const useToast = () => useContext(ToastContext);
-
-
+export const useToast = () => useContext(ToastContext) as IuseToast;
 export const ToastProvider = ({ children }: { children: React.ReactNode }) => {
     const [toast, setToast] = useState(initialToast);
     const timeout = useRef();
@@ -33,7 +38,7 @@ export const ToastProvider = ({ children }: { children: React.ReactNode }) => {
         }
     }, [hide, toast]);
 
-    const show = useCallback(args => {
+    const show = useCallback((args: any) => {
         setToast({ ...initialToast, visible: true, ...args });
     }, []);
 

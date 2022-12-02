@@ -45,9 +45,10 @@ const styles = StyleSheet.create({
     // borderWidth: 1,
   },
   cursorValuesContainer: {
-    height: 30,
-    width: 140,
+    height: 40,
+    width: 130,
     alignItems: 'center',
+    justifyContent: 'center',
     position: 'absolute',
     top: -30,
     // borderWidth: 1,
@@ -68,20 +69,20 @@ export const Cursor = ({
   data,
 }: any): JSX.Element => {
 
+  const { minXvalue, maxXvalue, minYvalue, maxYvalue } = getMaxMinValues({
+    data,
+  });
 
   const formattedValues = data.map(
-    (price) => [parseFloat(price[1]), price[0]] as [number, number]
+    ([x, y]) => [parseFloat(y), parseFloat(x)] as [number, number],
   );
-  const prices = formattedValues.map((value) => value[1]);
+  const prices = formattedValues.map((value) => value[1])
   const dates = formattedValues.map((value) => value[0]);
 
   const min = Math.min(...prices);
   const max = Math.max(...prices);
-  const minY = Math.min(...prices);
-  const maxY = Math.max(...prices);
-  const GRAPH_HEIGHT = 400;
-  const GRAPH_WIDTH = 360;
-
+  const minY = Math.min(...dates);
+  const maxY = Math.max(...dates);
 
   const maxXvalueScaled = xScale(max);
   const minXvalueScaled = xScale(min);
@@ -129,6 +130,20 @@ export const Cursor = ({
     };
   });
 
+
+  const styleAnimatedValue = useAnimatedStyle(() => {
+    const translateX = Number(translationX.value) - CURSOR - 130;
+    const translateY = Number(translationY.value) - CURSOR + 10;
+    return {
+      transform: [
+        { translateX },
+        { translateY },
+        { scale: withSpring(isActive.value ? 1 : 0) },
+      ],
+    };
+  });
+
+
   // values animation
   const styleAnimatedValues = useAnimatedStyle(() => {
     return {
@@ -155,7 +170,7 @@ export const Cursor = ({
   return (
     <View style={styles.mainContainer}>
       <Animated.View
-        style={[styles.cursorValuesContainer, styleAnimatedValues]}>
+        style={[styles.cursorValuesContainer, styleAnimatedValue, styleAnimatedValues]}>
         <CursorValue x={x} y={y} />
       </Animated.View>
       <PanGestureHandler {...{ onGestureEvent }}>

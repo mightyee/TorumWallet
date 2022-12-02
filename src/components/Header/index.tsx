@@ -1,5 +1,5 @@
 import React, { RefObject } from "react";
-import { Platform, StyleSheet, View } from "react-native";
+import { Platform, StyleSheet, View, Dimensions, TouchableOpacity, TouchableWithoutFeedback } from "react-native";
 import Animated, {
     Extrapolate, useCode, greaterThan, set, block
 } from "react-native-reanimated";
@@ -8,13 +8,13 @@ import { useValue } from 'react-native-redash/src/v1/Hooks'
 import Icon from 'react-native-vector-icons/Feather';
 import IonicIcon from 'react-native-vector-icons/Ionicons';
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useNavigation } from '@react-navigation/native';
-import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+import { NavigationProp, ParamListBase, useNavigation } from '@react-navigation/native';
 
 import { HEADER_IMAGE_HEIGHT } from "../DetailHeader";
 import { withAnimated } from '../WithAnimated';
 import GradientText from '../GradientText';
 import { numberFormat } from '../../utils/number';
+import styled from 'styled-components/native';
 
 const ICON_SIZE = 24;
 const PADDING = 16;
@@ -26,27 +26,23 @@ const styles = StyleSheet.create({
         top: 0,
         left: 0,
         right: 0,
-
     },
     header: {
         flexDirection: "row",
         height: MIN_HEADER_HEIGHT,
         alignItems: "center",
         paddingHorizontal: PADDING,
+        flex: 1
     },
     title: {
-        fontFamily: 'ZonaPro-Thin',
-        fontSize: 18,
-        color: 'white',
         marginLeft: PADDING,
         flex: 1,
     },
 });
-const value = Platform.OS === "ios" ? -15 : 30
+const value = Platform.OS === "ios" ? -25 : 50
 
 interface HeaderProps {
     y: Animated.Value<number>;
-    // tabs: TabModel[];
     scrollView: RefObject<Animated.ScrollView>;
     data: any;
 }
@@ -58,14 +54,14 @@ export default ({ y, data }: HeaderProps) => {
     const { top: paddingTop } = useSafeAreaInsets();
     const translateX = y.interpolate({
         inputRange: [0, HEADER_IMAGE_HEIGHT],
-        outputRange: [-ICON_SIZE - PADDING + 10, 0],
+        outputRange: [-ICON_SIZE - PADDING, 0],
         extrapolate: Extrapolate.CLAMP,
     });
     const translateY = y.interpolate({
         inputRange: [-100, 0, HEADER_IMAGE_HEIGHT],
         outputRange: [
             HEADER_IMAGE_HEIGHT - MIN_HEADER_HEIGHT + 100,
-            HEADER_IMAGE_HEIGHT - MIN_HEADER_HEIGHT + value,
+            HEADER_IMAGE_HEIGHT - MIN_HEADER_HEIGHT,
             0,
         ],
         extrapolateRight: Extrapolate.CLAMP,
@@ -77,17 +73,21 @@ export default ({ y, data }: HeaderProps) => {
     ]);
     const AnimatedLinearGradient = withAnimated(GradientText);
 
+    const goBacks = () => {
+        goBack()
+
+    }
     return (
-        <Animated.View style={[styles.container, { paddingTop: paddingTop }]}>
+        <Container>
             <Animated.View
                 style={{
                     ...StyleSheet.absoluteFillObject,
                     opacity,
-                    backgroundColor: '#10171d'
+                    backgroundColor: '#35444e'
                 }}
             />
             <View style={styles.header}>
-                <TouchableWithoutFeedback onPress={() => goBack()}>
+                <TouchableWithoutFeedback onPress={goBacks}>
                     <View style={{ backgroundColor: '#35444e', borderRadius: 10, padding: 5 }}>
                         <Icon name="arrow-left" size={ICON_SIZE} color="white" />
                         <Animated.View
@@ -99,15 +99,31 @@ export default ({ y, data }: HeaderProps) => {
                         </Animated.View>
                     </View>
                 </TouchableWithoutFeedback>
-                <View style={{ flex: 1 }}>
+                <View style={[styles.title]}>
                     <AnimatedLinearGradient text={numberFormat(data.market_data.current_price.usd)} h1 style={[
-                        { transform: [{ translateX }, { translateY }], paddingLeft: 15 },
+                        { transform: [{ translateX }, { translateY }] },
                     ]} />
                 </View>
                 <View style={{ backgroundColor: '#35444e', borderRadius: 10, padding: 5 }}>
                     <IonicIcon name="notifications" size={ICON_SIZE} color="white" />
                 </View>
             </View>
-        </Animated.View>
+        </Container>
     );
 };
+
+const Container = styled(Animated.View) <{ paddingTop?: number }>`
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    padding-top:  ${props => props.paddingTop ? props.paddingTop : 0}px;
+`
+const InnerContainer = styled(Animated.View) <{ paddingTop?: number }>`
+    position: absolute;
+    top: 0px;
+    background-color: 10px;
+    left: 0px;
+    right: 0px;
+    padding-top: ${props => props.paddingTop ? props.paddingTop : 0}px;
+`

@@ -17,12 +17,12 @@ export type DataPoint = {
 
 export const getMaxMinValues = ({data}: any): IGetMaxMinValuesR => {
   if (data?.length) {
-    const formattedValues = data.map(
-      price => [parseFloat(price[1]), price[0]] as [number, number],
-    );
+    // const formattedValues = data.map(
+    //   price => [parseFloat(price[1]), price[0]] as [number, number],
+    // );
 
-    const allXvalues = formattedValues.map(item => Number(item[1]));
-    const allYvalues = formattedValues.map(item => Number(item[0]));
+    const allXvalues = data.map(item => Number(item[1]));
+    const allYvalues = data.map(item => Number(item[0]));
 
     const minXvalue = Math.min(...allXvalues);
     const maxXvalue = Math.max(...allXvalues);

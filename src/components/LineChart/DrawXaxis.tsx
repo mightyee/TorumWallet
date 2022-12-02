@@ -13,34 +13,35 @@ export const DrawXaxis = ({
   width,
   height,
 }: IDrawXaxis): JSX.Element => {
+
   const numberOfTicks = xScale.ticks().length;
-  const ticks = xScale.ticks(numberOfTicks);
-  // console.log('ticksXXX', ticks);
-  // const date = new Date(ticks);
-
-  // console.log(date.toLocaleDateString('en-US')); // 👉️ "1/20/2022"
-
+  const ticks = xScale.ticks(numberOfTicks / 2);
 
   return (
     <G key="xAxis" fill="none" transform={`translate(35, ${height - 30})`}>
-      <Line stroke="white" x1="0" y1="0" x2={width - 80} y2="0" />
+      {/* <Line stroke="white" x1="0" y1="0" x2={width - 80} y2="0" opacity="0.3" /> */}
       {ticks.map(tick => {
         const xTick = xScale(tick);
         const date = new Date(tick);
+
+
+        let d = new Date(tick);
+        let ye = new Intl.DateTimeFormat('en', { year: 'numeric' }).format(d);
 
         return (
           <G
             key={`xa_${tick}_0`}
             opacity="1"
             transform={`translate(${xTick}, 0)`}>
-            <Line
+            {/* <Line
               key={`xa_${tick}_1`}
-              y2={8}
+              y2={5}
+              opacity="0.3"
               strokeWidth={1}
               stroke="white"
-            />
-            <Text fontSize="14" fill="white" y="30" x="-8">
-              {date.toLocaleDateString('en-US')}
+            /> */}
+            <Text fontSize="12" fill="white" y="20" x="-8">
+              {ye}
             </Text>
           </G>
         );

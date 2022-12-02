@@ -18,7 +18,7 @@ export const Toast = () => {
             Animated.timing(translateYRef.current, {
                 duration: 300,
                 easing: Easing.ease,
-                toValue: 100,
+                toValue: 30,
                 useNativeDriver: true,
             }).start();
         } else {
@@ -35,7 +35,6 @@ export const Toast = () => {
         <Animated.View
             style={[
                 styles.toast,
-
                 { transform: [{ translateY: translateYRef.current }], backgroundColor: toast.color || '#76a18a', },
             ]}>
             <TouchableOpacity onPress={hide} style={styles.content}>

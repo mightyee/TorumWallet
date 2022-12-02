@@ -45,7 +45,6 @@ const DetailsCard = ({ data, ...props }: IDetailsCard) => {
                         </Text>
                     </View>
                     <Text>
-                        {/* {dateFormat(date, "dddd, mmmm dS, yyyy, h:MM:ss TT")} */}
                         {new Date(date).toDateString()}
                     </Text>
                 </View>

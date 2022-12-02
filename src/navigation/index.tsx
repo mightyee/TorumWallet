@@ -6,10 +6,9 @@ import { Detail } from '../screens';
 import AnimatedSplashScreen from '../screens/AnimatedSplashScreen';
 import BottomTabNavigator from './BottomTabNavigator';
 import WalletProvider from '../contexts/WalletContext';
-import { ToastProvider } from '../contexts/ToastContext';
-import Toast from '../components/Toast';
-import { useTheme } from 'styled-components'
 
+import { useTheme } from 'styled-components'
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 export default () => {
     const [isReady, setIsReady] = useState(false);
@@ -23,7 +22,7 @@ export default () => {
 
     const navigationTheme = {
         ...DefaultTheme,
-        dark: true,
+        dark: false,
         colors: {
             ...DefaultTheme.colors,
             border: 'rgba(0,0,0,0)',
@@ -38,15 +37,16 @@ export default () => {
     return (
         <NavigationContainer theme={navigationTheme} onReady={markNavigationContainerReady} >
             <AnimatedSplashScreen isReady={isReady}>
-
-                <WalletProvider>
-                    <Stack.Navigator>
-                        <Stack.Screen name="Root"
-                            component={BottomTabNavigator}
-                            options={{ headerShown: false }} />
-                        <Stack.Screen name="Detail" component={Detail} options={{ headerShown: false }} />
-                    </Stack.Navigator>
-                </WalletProvider>
+                <GestureHandlerRootView style={{ flex: 1 }}>
+                    <WalletProvider>
+                        <Stack.Navigator>
+                            <Stack.Screen name="Root"
+                                component={BottomTabNavigator}
+                                options={{ headerShown: false }} />
+                            <Stack.Screen name="Detail" component={Detail} options={{ headerShown: false }} />
+                        </Stack.Navigator>
+                    </WalletProvider>
+                </GestureHandlerRootView>
             </AnimatedSplashScreen>
         </NavigationContainer >
     );

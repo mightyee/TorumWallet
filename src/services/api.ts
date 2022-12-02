@@ -37,9 +37,9 @@ export const getCoinDetails = async (coinId: string) => {
 export const getTickerDetails = async (coinId: string) => {
   try {
     const response = await axios.get(
-      `https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=usd&days=1&interval=daily
-        `,
+      `https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=usd&days=max`,
     );
+
     return response.data;
   } catch (e) {
     console.log(e);

@@ -5,9 +5,7 @@ import { getWatchlistedCoins } from '../services/api';
 import { useQuery } from "@tanstack/react-query";
 import { FlashList } from "@shopify/flash-list";
 import SwipeCoinItem from '../components/SwipeCoinItem';
-import {
-    GestureHandlerRootView,
-} from 'react-native-gesture-handler';
+
 import { useToast } from '../contexts/ToastContext';
 import Empty from '../components/Empty';
 
@@ -59,22 +57,21 @@ const Wallet = (props) => {
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: '#1B232A' }}>
-            <GestureHandlerRootView style={{ flex: 1 }}>
-                <FlashList
-                    estimatedItemSize={64}
-                    data={data}
-                    extraData={data}
-                    renderItem={renderItem}
-                    keyExtractor={keyExtractor}
-                    refreshControl={
-                        <RefreshControl
-                            refreshing={isLoading}
-                            tintColor="white"
-                            onRefresh={walletCoinIds?.length > 0 ? refetch : null}
-                        />
-                    }
-                />
-            </GestureHandlerRootView>
+
+            <FlashList
+                estimatedItemSize={64}
+                data={data}
+                extraData={data}
+                renderItem={renderItem}
+                keyExtractor={keyExtractor}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={isLoading}
+                        tintColor="white"
+                        onRefresh={refetch}
+                    />
+                }
+            />
         </SafeAreaView>
     )
 };

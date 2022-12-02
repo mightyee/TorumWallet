@@ -13,6 +13,8 @@ const styles = StyleSheet.create({
   valuesContainer: {
     flex: 1,
     flexDirection: 'row',
+    // justifyContent: 'center',
+    // alignItems: 'center',
     // borderWidth: 1,
   },
   variableContainer: {
@@ -22,13 +24,15 @@ const styles = StyleSheet.create({
     // borderWidth: 1,
   },
   valueContainer: {
-    width: 40,
+    // width: 70,
     justifyContent: 'center',
     alignItems: 'center',
     // borderWidth: 1,
   },
   value: {
-    fontSize: 18,
+    color: 'white',
+    fontSize: 16,
+    textAlign: "center",
   },
 });
 
@@ -38,25 +42,26 @@ export const CursorValue = ({
   isCursorActive = true,
 }: ICursorValue): JSX.Element | null => {
 
-  console.log('y', y);
+  // const date = new Date(price.value)
+  // console.log(date.toLocaleDateString('en-US')); // 👉️ "1/20/2022"
+  // const formattedPrice = useDerivedValue(() => (date.toLocaleDateString('de-US')));
 
   return isCursorActive ? (
     <View style={styles.valuesContainer}>
-      <View style={styles.variableContainer}>
+      {/* <View style={styles.variableContainer}>
         <Text style={styles.value}>X:</Text>
       </View>
       <View style={styles.valueContainer}>
-        <ReText text={x} style={{ color: "white" }} />
-      </View>
+        <ReText text={x} style={{ color: "white", textAlign: "center" }} />
+      </View> */}
 
       {/* y value */}
 
-      <View style={styles.variableContainer} />
       <View style={styles.variableContainer}>
         <Text style={styles.value}>Y:</Text>
       </View>
       <View style={styles.valueContainer}>
-        <ReText text={y} style={{ color: "white" }} />
+        <ReText text={y} style={{ color: "white", textAlign: "center" }} />
       </View>
     </View>
   ) : null;
